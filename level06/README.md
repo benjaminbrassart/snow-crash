@@ -140,4 +140,4 @@ int main(int argc, char **argv, char **envp)
 }
 ```
 
-Better.
+Better. It looks like `level06` is a setuid/setguid wrapper for `level06.php`.
