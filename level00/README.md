@@ -1,17 +1,22 @@
 # level00
 
+Our target user is `flag00`. Let's start with some basic scouting commands:
+
 ```sh
-ls -lA
-# nothing useful
+# Inspect level00's home
+ls -lA # nothing useful
 
-find / -user level00 2>/dev/null
-# nothing relevant
+# Inspect flag00's home
+ls -lA "$(getent passwd flag00 | cut -d ':' -f 6)" # permission denied
 
-find / -readable 2>/dev/null
-# too many results
+# Find files that belong to level00
+find / -user level00 2>/dev/null # nothing relevant
 
-find / -user flag00 2>/dev/null
-# something interesting
+# Find files that are readable by level00
+find / -readable 2>/dev/null # too many results
+
+# Find files that belong to flag00
+find / -user flag00 2>/dev/null # interesting...
 ```
 
 With the last command, we get two files:
