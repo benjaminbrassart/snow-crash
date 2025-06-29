@@ -36,9 +36,12 @@ int main(int argc,char **argv,char **envp)
 ```
 
 Ici on voit qu'on met le contenu de LOGNAME qui est une variable d'env dans une string en la précèdent de "/bin/echo"
+
 donc /bin/echo level07
+
 On execute ensuite cette string
 system(local_1c);
+
 La si on arrive à changer notre env avec un export par exemple on pourrait faire quelque chose comme:
 ```bash
 export LOGNAME=";getflag"

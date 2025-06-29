@@ -20,6 +20,7 @@ cdiiddwpgswtgt
 ```
 
 J'essaie de rentrer le mdp mais ca échoue, il est probablement protégé/crypté.
+
 Je rentre le mdp dans dcode.fr et je vois un mdp coherent rot15: nottoohardhere
 
 x24ti5gi3x0ol2eh4esiuxias

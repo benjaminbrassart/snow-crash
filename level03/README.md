@@ -21,16 +21,21 @@ et je vois des droits spéciaux
 ```
 
 Je verifie et vois que le s signifie exec avec les droits du propriétaire ici level03
+
 Je me dis qu'il serait interessant de le désassembler pour voir se qu'il en retourne:
 
 Je regarde les différents désassembleur :
 
 IDA Pro (Interactive DisAssembler) – très puissant, version gratuite disponible : IDA Free
-Ghidra – développé par la NSA, gratuit et open source, très complet.
+
+[Ghidra](https://github.com/NationalSecurityAgency/ghidra) – développé par la NSA, gratuit et open source, très complet.
+
 Radare2 / Cutter – open source, interface graphique disponible avec Cutter.
+
 x64dbg – pour le debug/désassemblage sur Windows
 
-Je choisis Ghidra qui m'a l'air tres fiable et facile d'utilisation
+Je choisis [Ghidra](https://github.com/NationalSecurityAgency/ghidra) qui m'a l'air tres fiable et facile d'utilisation
+
 plus compliqué que prevu mais j'arrive enfin à decompiler le programme et j'obtiens:
 
 ```c
@@ -55,6 +60,7 @@ int main(int argc,char **argv,char **envp)
 ```
 
 Je vois qu'ici le programme fait appel à son environnement(PATH) pour localiser et exécuté echo
+
 C'est une faille car on peut modifier le PATH pour y insérer un éxecutable ou un script du même nom qui sera exécuté à la place du vrai echo 
 
 `touch echo`

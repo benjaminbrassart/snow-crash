@@ -26,6 +26,7 @@ print $r;
 Après des recherches on voit qu'il y'a un `/e` qui est utilisé dans le regex et qui est une faille car il exécute la chaine de remplacement comme du code php équivaut à `eval()`
 
 j'essaie à de nombreuse reprise sans succès d'exploiter cette faille
+
 Puis je me dis que peut etre l'exec ne correspond pas au programme php voyons avec ghidra:
 
 
@@ -60,7 +61,9 @@ int main(int argc, char **argv, char **envp)
 }
 
 Je vois que l'exécutable exécute notre programme level06.php mais a les droits SUID ce qui signifie qu'on va pouvoir exploiter le regex si on encapsule
+
 Je ressaie quelque chose comme ca:
+
 Je crée un fichier test dans tmp
 
 script

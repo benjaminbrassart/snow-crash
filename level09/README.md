@@ -111,9 +111,13 @@ code_r0x080489ca:
 }
 ```
 J'ai remarqué que l'on fait un getenv(LD_PRELOAD)
+
 mais cette fois ci c'est different si je fais un echo $LD_PRELOAD rien
+
 alors je me renseigne et j'aprend que cette variable d'env sert à linker une lib comme la libc par exemple
+
 Il n’est pas possible de forcer LD_PRELOAD sur un programme setuid via des moyens standards. C’est intentionnellement protégé par le système.
+
 [Doc](https://man7.org/linux/man-pages/man8/ld.so.8.html)
 
 mais je vois ca: `puts("You should not reverse this");`
@@ -124,6 +128,7 @@ output:
 `123456789:;<=>?@AB`
 
 donc il est clair que pour chaque caractère on rajoute 1 supplémentaire à chaque fois
+
 essayons de reverse le token avec un script: 
 ```bash
 cat token | perl -pe 's/(.)/chr(ord($1) - pos($_)) /ge'

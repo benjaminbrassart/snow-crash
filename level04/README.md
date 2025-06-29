@@ -19,10 +19,15 @@ x(param("x"));
 ```
 
 Je vois `CGI` qui est un protocole permettant d'exécuter des scripts via des requêtes web
+
 `sub` permet de definir une fonction en perl ici: `x`
+
 `$y` est ce que l'utilisateur passe dans l 'url
+
 ici la faille c'est que les backticks signifient Exécute cette commande shell
+
 Cette fonction prend en argument ce que l'utilisateur passe 
+
 J'essaie:
 ```bash
  curl http://localhost:4747?x=hello

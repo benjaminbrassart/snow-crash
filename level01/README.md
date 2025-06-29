@@ -1,6 +1,7 @@
 # level01
 
 Le fichier passwd dans /etc contient les informations de base sur les comptes utilisateurs du système. 
+
 Avant les mdp était stocké directement à cet endroit comme on peut le voir dans la [linuxdoc](https://www.linuxdoc.org/HOWTO/Security-HOWTO-6.html)
 
 
@@ -13,6 +14,7 @@ flag01:42hDRfypTqqnw:3001:3001::/home/flag/flag01:/bin/bash
 ```
 
 john est une commande qui essaie de retrouver un mot de passe à partir de son hash par bruteforce ou dictionnaire.
+
 J'install john-jumbo latest version et je met le mot de passe dans un fichier
 
 ```bash

@@ -1,6 +1,7 @@
 # level05
 
 lorsqu'on se connecte en ssh on a un message: `You have new mail.`
+
 Lorsqu'on regarde le env on voit:
 ```
 MAIL=/var/mail/level05
@@ -14,7 +15,9 @@ dans se fichier on voit:
 `*/2 * * * *` Signifie que le script est executé toute les 2m
 
 Si on arrive à mettre ce qu'on veut dans /usr/sbin/openarenaserver peut etre que l'on pourra executé se que l'on veut ?
+
 Mais on a n'y les droit d'exec ni les droits de modifier le fichier.
+
 En revanche on regarde son contenu et on voit que le script exec tout ce qui se trouve dans `/opt/openarenaserver` dans un sous shell 
 
 ```bash
@@ -26,6 +29,7 @@ for i in /opt/openarenaserver/* ; do
 done
 ```
 Il suffit maintenant de faire un petit script dans opt/openarenaserver
+
 Ce script doit executé getflag et redirigé l'output car il executé dans un sous-shell
 
 le script:

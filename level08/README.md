@@ -67,8 +67,7 @@ output:
 You may not access 'token'
 ```
 
-Nous obtiendrons plus de droit avec un lien symbolic
-pour connaitre le chemin absolu: realpath [fichier]
+Nous obtiendrons plus de droit avec un lien symbolic, pour connaitre le chemin absolu: `realpath [fichier]`
 
 ```bash
 ln -fs /home/user/level08/token /tmp/test
