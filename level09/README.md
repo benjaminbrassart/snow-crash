@@ -126,7 +126,7 @@ output:
 donc il est clair que pour chaque caractère on rajoute 1 supplémentaire à chaque fois
 essayons de reverse le token avec un script: 
 ```bash
-cat token | perl -pe 's/(.)/chr(ord($1) - pos($_)) /ge' | tr -d ' '
+cat token | perl -pe 's/(.)/chr(ord($1) - pos($_)) /ge'
 ```
 output:
 `f3iji1ju5yuevaus41q1afiuq`
