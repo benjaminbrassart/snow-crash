@@ -29,7 +29,7 @@ j'essaie à de nombreuse reprise sans succès d'exploiter cette faille
 
 Puis je me dis que peut etre l'exec ne correspond pas au programme php voyons avec ghidra:
 
-
+```c
 int main(int argc, char **argv, char **envp)
 {
 	char *file_name;
@@ -59,6 +59,7 @@ int main(int argc, char **argv, char **envp)
 	execve("/usr/bin/php", args, envp);
 	return 0;
 }
+```
 
 Je vois que l'exécutable exécute notre programme level06.php mais a les droits SUID ce qui signifie qu'on va pouvoir exploiter le regex si on encapsule
 
